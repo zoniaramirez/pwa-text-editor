@@ -1,5 +1,11 @@
 const butInstall = document.getElementById('buttonInstall');
 
+// Check installation state on page load
+if (localStorage.getItem('appInstalled') === 'true') {
+    butInstall.textContent = 'Installed';
+    butInstall.classList.toggle('hidden', false);
+}
+
 // Logic for installing the PWA
 // TODO: Add an event handler to the `beforeinstallprompt` event
 window.addEventListener('beforeinstallprompt', (event) => {
@@ -19,10 +25,17 @@ butInstall.addEventListener('click', async () => {
 
 	window.deferredPrompt = null;
 
+	
 	butInstall.classList.toggle('hidden', true);
 });
 
 // TODO: Add an handler for the `appinstalled` event
 window.addEventListener('appinstalled', (event) => {
     window.deferredPrompt = null;
+
+	butInstall.textContent = 'Installed';
+    butInstall.classList.toggle('hidden', false);
+
+	// Store installation state in local storage
+    localStorage.setItem('appInstalled', 'true');
 });
